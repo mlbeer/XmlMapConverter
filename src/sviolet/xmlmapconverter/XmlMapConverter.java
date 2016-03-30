@@ -114,7 +114,7 @@ public class XmlMapConverter {
         }
         Document document = DocumentHelper.parseText(xml);
         Element root = document.getRootElement();
-        Map<String, String> map = new HashMap<>();
+        Map map = new HashMap();
         convert(root, map);
         return map;
     }
@@ -146,7 +146,7 @@ public class XmlMapConverter {
                     map.put(name, preData);
 
                 }else{
-                    List list = new ArrayList<>();
+                    List list = new ArrayList();
                     list.add(preData);
                     list.add(data);
                     map.put(name, list);
