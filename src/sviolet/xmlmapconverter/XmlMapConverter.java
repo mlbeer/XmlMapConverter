@@ -36,7 +36,7 @@ public class XmlMapConverter {
      * @return XML(String)
      * @throws Exception
      */
-    public static String mapToXml(Map map, String rootName) throws Exception {
+    public static String mapToXml(Map<String, Object> map, String rootName) throws Exception {
         return mapToXml(map, rootName, DEFAULT_OUTPUT_FORMAT);
     }
 
@@ -48,7 +48,7 @@ public class XmlMapConverter {
      * @return XML(String)
      * @throws Exception
      */
-    public static String mapToXml(Map map, String rootName, OutputFormat outputFormat) throws Exception {
+    public static String mapToXml(Map<String, Object> map, String rootName, OutputFormat outputFormat) throws Exception {
         if (map == null){
             throw new RuntimeException("[XmlMapConverter]can't convert null map into xml");
         }
@@ -108,18 +108,18 @@ public class XmlMapConverter {
         }
     }
 
-    public static Map xmlToMap(String xml) throws Exception {
+    public static Map<String, Object> xmlToMap(String xml) throws Exception {
         if (xml == null || xml.length() <= 0){
             throw new Exception("[XmlMapConverter]can't convert null xml into map");
         }
         Document document = DocumentHelper.parseText(xml);
         Element root = document.getRootElement();
-        Map map = new HashMap();
+        Map<String, Object> map = new HashMap<String, Object>();
         convert(root, map);
         return map;
     }
 
-    private static void convert(Element element, Map map){
+    private static void convert(Element element, Map<String, Object> map){
         if (element == null || map == null){
             return;
         }
@@ -136,15 +136,14 @@ public class XmlMapConverter {
             if (((Element) subElement).isTextOnly()){
                 data = ((Element) subElement).getData();
             }else{
-                data = new HashMap();
-                convert((Element)subElement, (Map)data);
+                data = new HashMap<String, Object>();
+                convert((Element)subElement, (Map<String, Object>)data);
             }
             Object preData = map.remove(name);
             if (preData != null){
                 if (preData instanceof List){
                     ((List) preData).add(data);
                     map.put(name, preData);
-
                 }else{
                     List list = new ArrayList();
                     list.add(preData);
